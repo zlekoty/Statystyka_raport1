@@ -1,27 +1,13 @@
 \documentclass{article}
-\usepackage{titlesec}
-
-\titleformat*{\section}{\LARGE\bfseries}
-\titleformat*{\subsection}{\Large\bfseries}
-\titleformat*{\subsubsection}{\large\bfseries}
-\titleformat*{\paragraph}{\large\bfseries}
-\titleformat*{\subparagraph}{\large\bfseries}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\usepackage{polski}
-\usepackage{mathtools,amsthm,amssymb,icomma,upgreek,xfrac,enumerate, bbm}
-\usepackage{derivative}
+\usepackage[export]{adjustbox}
+\usepackage{mathtools,amsthm,amssymb,icomma,upgreek,xfrac,enumerate, bbm,titlesec,lmodern,polski,derivative,geometry,multicol,titling,graphicx,url,amsmath,caption,lipsum,float,longtable,booktabs}
+\usepackage[table,xcdraw]{xcolor}
 \usepackage[hidelinks,breaklinks,pdfusetitle,pdfdisplaydoctitle]{hyperref}
-\usepackage{geometry}
-%\newgeometry{tmargin=0.5cm, bmargin=0.5cm, lmargin=0.5cm, rmargin=0.5cm}
-\usepackage{multicol}
-\usepackage{titling}
-\usepackage{graphicx} 
-\usepackage{url}
 \setlength{\droptitle}{-1cm}
 \mathtoolsset{showonlyrefs,mathic}
-\title{Symulacje komputerowe raport 1}
+\title{Statystyka stosowana raport 1}
 \author{Adam Wrzesiński, Joanna Kołaczek}
 \date{30.04.2022}
 \newtheoremstyle{break}
@@ -33,6 +19,11 @@
 \newtheorem{zadanie}{Zadanie} 
 \newtheorem*{rozwiazanie}{Rozwiązanie}
 
+\titleformat*{\section}{\LARGE\bfseries}
+\titleformat*{\subsection}{\Large\bfseries}
+\titleformat*{\subsubsection}{\large\bfseries}
+\titleformat*{\paragraph}{\large\bfseries}
+\titleformat*{\subparagraph}{\large\bfseries}
 
 %% KOMENDY:
 \newcommand*{\e}{\mathrm{e}}
@@ -45,14 +36,8 @@
 % angielskim.
 \DeclareMathOperator{\diff}{d\!}
 \newcommand{\indep}{\perp \!\!\! \perp}
-\usepackage{amsmath}
 \DeclareMathOperator{\EX}{\mathbb{E}}
 \newcommand*{\E}{\mathrm{e}}
-
-\usepackage{caption}
-\usepackage[export]{adjustbox}
-\usepackage{lipsum}
-\usepackage{float}
 
 
 
@@ -66,15 +51,23 @@
 \subsection{Miary położenia}
 \subsubsection{Średnia arytmetyczna}
 $$\overline{x}=\frac{1}{n}\sum\limits_{i=1}^{n}x_i$$
+Jest to suma wszystkich wartości z próby, podzielona przez ich ilość. Chociaż średnia arytmetyczna jest często używana do określania tendencji centralnej, nie jest to tzw statystka odpornościowa, co oznacza, że duży wpływ na nią mają wartości odstające. W przypadku rozkładów skośnych, takich jak np rozkład dochodów, w którym dochody kilku osób są znacznie wyższe niż dochody większości, średnia arytmetyczna może nie pokrywać się z naszym pojęciem "środka", dlatego lepiej można go określić z pomocą innych statystyk.\\
+Dla naszych danych średnia aryrmetyczna wyniosła: \textbf{222,149}
 \subsubsection{Średnia harmoniczna}
-$$\overline{x}_h=\frac{n}{\sum\limits_{i=1}^{n}x_i}$$
+$$\overline{x}_h=\frac{n}{\sum\limits_{i=1}^{n}\frac{1}{x_i}}$$
+Jest to liczba obserwacji podzielona przez sumę odwrotności wartości z próby. Często wykorzystuje się ją do obliczania średniej współczynników lub wskaźników lub gdy wartości danych są wyrażone w jednostkach w postaci względnej. Niejako wyrównuje ona wagę każdego punktu danych, na przykład średnia arytmetyczna przypisuje dużą wagę dużym zbiorom danych, podczas gdy średnia harmoniczna nadaje mniejszą wagę mniejszym zbiorom danych. (?) \\
+Dla naszych danych średnia harmoniczna wyniosła: \textbf{221.085}
 \subsubsection{Średnia geometryczna}
 $$\overline{x}_g=\sqrt{\prod\limits_{i=1}^{n}x_i}$$
+Jest to pierwiastek stopnia $n$ z iloczynu $n$ wartości próby. Średnia geometryczna jest często stosowana w przypadku zbioru liczb które mają charakter wykładniczy, np. zbioru danych dotyczących wzrostu: wartości populacji ludzkiej lub stóp procentowych inwestycji finansowych w czasie.
 \subsubsection{Średnia ucinana}
 $$\overline{x}_u=\frac{1}{n-2k}\sum\limits_{i=k+1}^{n-k}x_i$$
+Liczy się ją tak jak średnią arytmetyczną, jednak odrzuca się określony procent wartości skrajnych. Dzięki temu jest to estymator wrażliwy na wartości odstające - w przeciwieństwie do średniej arytmetycznej jest to prosty przykład statystyki odpornościowej. Używana chociażby przy ocenianiu przez sędziów w zawodach. Średnia obcięta wykorzystuje więcej informacji z rozkładu lub próby niż mediana, ale o ile rozkład podstawowy nie jest symetryczny, jest mało prawdopodobne, aby średnia obcięta z próby dała bezstronny estymator zarówno średniej, jak i mediany.
 \subsubsection{Średnia Winsorowska}
 $$\overline{x}_w=\frac{1}{n}[(k+1)x_{k+1}\sum\limits_{i=k+2}^{n-k-1}x_i +(k+1)x_{n-k}]$$
+Liczy się ją podobnie jak średnią ucinaną, jednak zamiast pozbywać się wartości skrajnych, zamienia się je na odpowiednio minimum i maksimum z pozostałych wartości. Ma ona również podobne własności co średnia ucinana, stosowana jest najczęściej w sytuacjach kiedy nie jesteśmy pewni co do prawdziwości, dokładności wartości skrajnych.
 \subsubsection{Kwantyle}
+Kwantyle dzielą uporządkowaną próbę na mniejsze grupy o równej ilości elementów. Najbardziej "znanym" kwantylem jest mediana, wartość środkowa, powyżej i poniżej niej znajduje się 50\% obserwacji. Dobrze się sprawdza gdy chcemy porównać zarobki ale znajduje też zastosowanie w grafice komputerowej, gdzie przydaje się przy odszumianiu. Kwartyle, które wskazują na dolne i górne 25\% również często pojawiają się przy porównywaniu wynagrodzeń.
 \paragraph{Mediana}
 $$x_{med}=
 \begin{cases}
@@ -91,10 +84,13 @@ $$x_{med}=
 \subsection{Miary rozproszenia}
 \subsubsection{Rozstęp}
 $$R=x_n-x_1$$
+Jest to najprostsza miara rozproszenia - różnica między największą a najmniejszą zaobserwowaną wartością z próby. 
 \subsubsection{IQR (rozstęp międzykwartylowy)}
 $$IQR=Q3-Q1$$
+ Jest to miara rozrzutu zmiennej, podobna do odchylenia standardowego, jednak bardziej odporna na elementy odstające. Wyznaczamy go jako różnicę między trzecim a pierwszym kwartylem.
 \subsubsection{Wariancja z próby}
 $$S^2=\frac{1}{n-1}\sum\limits_{i=1}^{n}(x_i - \overline{x})^2$$
+Wariancja to średnia arytmetyczna kwadratów odchyleń poszczególnych wartości zbioru i cechy od wartości oczekiwanej (przypadek obciążony).  Informuje nas, jak bardzo zróżnicowany jest zbiór pod kątem koncentracji wokół średniej bądź też rozproszenia - im bliżej zera, tym mniej zróżnicowane wartości w próbie. Jeżeli chcemy uzyskać wariancję nieobciążoną, w mianowniku musimy zamienić $n$ na $n-1$.
 \subsubsection{Odchylenie standardowe}
 $$S=\sqrt{S^2}$$
 \subsubsection{Współczynnik zmienności}
@@ -103,15 +99,37 @@ $$V=\frac{S}{\overline{x}} \quad (\cdot 100\%)$$
 \subsection{Miary asymetrii}
 \subsubsection{Współczynnik skośności (asymetrii)}
 $$\alpha =\frac{n}{(n-1)(n-2)}\sum\limits_{i=1}^{n}(\frac{x_i-\overline{x}}{S})^3$$
-\subsubsection{Inna postać współczynnika asymetrii}
 $$\alpha_1 =\frac{\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^3}{(\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^2)^{\frac{3}{2}}}$$
 \subsection{Miary spłaszczenia (koncentracji)}
 \subsubsection{Kurtoza}
 $$K_1 =\frac{\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^4}{(\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^2)^2}$$
 $$K=\frac{n-1}{(n-2)(n-3)}((n+1)K_1-3(n+1))+3$$
 
-\subsection{Miary położenia}
-??
+\subsection{Tabela}
+\begin{longtable}[c]{| c | c |}
+\hline
+\multicolumn{2}{|l|}{\cellcolor[HTML]{DBDBDB}Miary położenia}    \\ \hline
+\multicolumn{1}{|l|}{średnia arytmetyczna}          & 222.149    \\ \hline
+\multicolumn{1}{|l|}{średnia harmoniczna}           & 221.085    \\ \hline
+\multicolumn{1}{|l|}{średnia geometryczna}          & 221.643    \\ \hline
+\multicolumn{1}{|l|}{średnia ucinana}               & 222.104    \\ \hline
+\multicolumn{1}{|l|}{średnia Winsorowska}           & 222.182    \\ \hline
+\multicolumn{1}{|l|}{mediana Q2}                    & 214        \\ \hline
+\multicolumn{1}{|l|}{Q1}                            & 221        \\ \hline
+\multicolumn{1}{|l|}{Q3}                            & 230        \\ \hline
+\multicolumn{2}{|l|}{\cellcolor[HTML]{DBDBDB}Miary rozproszenia} \\ \hline
+\multicolumn{1}{|l|}{rozstęp}                       & 166        \\ \hline
+\multicolumn{1}{|l|}{IQR}                           & 16         \\ \hline
+\multicolumn{1}{|l|}{wariancja nieobciążona}        & 210.568    \\ \hline
+\multicolumn{1}{|l|}{wariancja obciążona}           & 210.203    \\ \hline
+\multicolumn{1}{|l|}{odchylenie standardowe}        & 14.511     \\ \hline
+\multicolumn{1}{|l|}{współczynnik zmienności}       & 6.532      \\ \hline
+\multicolumn{2}{|l|}{\cellcolor[HTML]{DBDBDB}Miary asymetrii}    \\ \hline
+\multicolumn{1}{|l|}{współczynnik skośności I}      & ?          \\ \hline
+\multicolumn{1}{|l|}{współczynnik skośności II}     & -0.848     \\ \hline
+\multicolumn{2}{|l|}{\cellcolor[HTML]{DBDBDB}Miary spłaszczenia} \\ \hline
+\multicolumn{1}{|l|}{Kurtoza}                       & 8.407      \\ \hline
+\end{longtable}
 
 \section{Wizualizacja}
 \subsection{Histogram}
