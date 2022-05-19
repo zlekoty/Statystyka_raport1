@@ -54,24 +54,27 @@
 	
 	Miary położenia określają położenie pojedynczej wartości w stosunku do innych wartości w próbie. 
 	
-	\subsubsection{Średnia arytmetyczna}
+	\subsubsection*{Średnia arytmetyczna}
 	$$\overline{x}=\frac{1}{n}\sum\limits_{i=1}^{n}x_i$$
 	Jest to suma wszystkich wartości z próby, podzielona przez ich ilość. Chociaż średnia arytmetyczna jest często używana do określania tendencji centralnej, nie jest to tzw statystka odpornościowa, co oznacza, że duży wpływ na nią mają wartości odstające. W przypadku rozkładów skośnych, takich jak np rozkład dochodów, w którym dochody kilku osób są znacznie wyższe niż dochody większości, średnia arytmetyczna może nie pokrywać się z naszym pojęciem "środka", dlatego lepiej można go określić z pomocą innych statystyk.\\
-	Dla naszych danych średnia aryrmetyczna wyniosła: \textbf{222,149}
-	\subsubsection{Średnia harmoniczna}
+	Dla naszych danych średnia aryrmetyczna wyniosła: \textbf{222.149}
+	\subsubsection*{Średnia harmoniczna}
 	$$\overline{x}_h=\frac{n}{\sum\limits_{i=1}^{n}\frac{1}{x_i}}$$
 	Jest to liczba obserwacji podzielona przez sumę odwrotności wartości z próby. Często wykorzystuje się ją do obliczania średniej współczynników lub wskaźników lub gdy wartości danych są wyrażone w jednostkach w postaci względnej. Niejako wyrównuje ona wagę każdego punktu danych, na przykład średnia arytmetyczna przypisuje dużą wagę dużym zbiorom danych, podczas gdy średnia harmoniczna nadaje mniejszą wagę mniejszym zbiorom danych. (?) \\
 	Dla naszych danych średnia harmoniczna wyniosła: \textbf{221.085}
-	\subsubsection{Średnia geometryczna}
+	\subsubsection*{Średnia geometryczna}
 	$$\overline{x}_g=\sqrt{\prod\limits_{i=1}^{n}x_i}$$
 	Jest to pierwiastek stopnia $n$ z iloczynu $n$ wartości próby. Średnia geometryczna jest często stosowana w przypadku zbioru liczb które mają charakter wykładniczy, np. zbioru danych dotyczących wzrostu: wartości populacji ludzkiej lub stóp procentowych inwestycji finansowych w czasie.
-	\subsubsection{Średnia ucinana}
+	Dla naszych danych średnia geometryczna wyniosła: \textbf{221.643}
+	\subsubsection*{Średnia ucinana}
 	$$\overline{x}_u=\frac{1}{n-2k}\sum\limits_{i=k+1}^{n-k}x_i$$
 	Liczy się ją tak jak średnią arytmetyczną, jednak odrzuca się określony procent wartości skrajnych. Dzięki temu jest to estymator wrażliwy na wartości odstające - w przeciwieństwie do średniej arytmetycznej jest to prosty przykład statystyki odpornościowej. Używana chociażby przy ocenianiu przez sędziów w zawodach. Średnia obcięta wykorzystuje więcej informacji z rozkładu lub próby niż mediana, ale o ile rozkład podstawowy nie jest symetryczny, jest mało prawdopodobne, aby średnia obcięta z próby dała bezstronny estymator zarówno średniej, jak i mediany.
-	\subsubsection{Średnia Winsorowska}
+	Dla naszych danych średnia ucinana wyniosła: \textbf{222.104}
+	\subsubsection*{Średnia Winsorowska}
 	$$\overline{x}_w=\frac{1}{n}[(k+1)x_{k+1}\sum\limits_{i=k+2}^{n-k-1}x_i +(k+1)x_{n-k}]$$
 	Liczy się ją podobnie jak średnią ucinaną, jednak zamiast pozbywać się wartości skrajnych, zamienia się je na odpowiednio minimum i maksimum z pozostałych wartości. Ma ona również podobne własności co średnia ucinana, stosowana jest najczęściej w sytuacjach kiedy nie jesteśmy pewni co do prawdziwości, dokładności wartości skrajnych.
-	\subsubsection{Kwantyle}
+	\\Dla naszych danych średnia Winsorowska wyniosła: \textbf{222.182}
+	\subsubsection*{Kwantyle}
 	Kwantyle dzielą uporządkowaną próbę na mniejsze grupy o równej ilości elementów. Najbardziej "znanym" kwantylem jest mediana, wartość środkowa, powyżej i poniżej niej znajduje się 50\% obserwacji. Dobrze się sprawdza gdy chcemy porównać zarobki ale znajduje też zastosowanie w grafice komputerowej, gdzie przydaje się przy odszumianiu. Kwartyle, które wskazują na dolne i górne 25\% również często pojawiają się przy porównywaniu wynagrodzeń.
 	\paragraph{Mediana}
 	$$x_{med}=
@@ -85,48 +88,61 @@
 		\item pierwszy kwartyl ($Q1$) to mediana grupy obserwacji mniejszych od $Q2$
 		\item drugi kwartyl ($Q3$) to mediana grupy obserwacji większych od $Q2$
 	\end{itemize}
-	
+	Dla naszych danych kwartyle wyniosły:
+	\begin{itemize}
+		\item $Q2 = $\textbf{221}
+		\item $Q1 = $\textbf{214}
+		\item $Q3 = $\textbf{230}
+	\end{itemize}
 	\subsection{Miary rozproszenia}
 	
 	Miary rozproszenia pozwalają określić zróżnicowanie wartości danej cechy wokół wartości centralnych (np. mediany, średniej).  Wskazują one, czy wyniki są zbliżone do wartości centralnej, czy też są znaczne różnice między poszczególnymi wynikami. Jeśli rozproszenie jest duże to wyliczona wartość centralna najczęściej niewiele nam powie o badanej grupie, jeśli wynik jest natomiast mały, to oznacza, że średnia lub mediana dobrze reprezentują wszystkie jednostki.
 	
-	\subsubsection{Rozstęp}
+	\subsubsection*{Rozstęp}
 	$$R=x_n-x_1$$
 	Jest to najprostsza miara rozproszenia - różnica między największą a najmniejszą zaobserwowaną wartością z próby. 
-	\subsubsection{IQR (rozstęp międzykwartylowy)}
+	\\Dla naszych danych rozstęp wyniósł: \textbf{166}
+	
+	\subsubsection*{IQR (rozstęp międzykwartylowy)}
 	$$IQR=Q3-Q1$$
 	Jest to miara rozrzutu zmiennej, podobna do odchylenia standardowego, jednak bardziej odporna na elementy odstające. Wyznaczamy go jako różnicę między trzecim a pierwszym kwartylem.
-	\subsubsection{Wariancja z próby}
+	\\Dla naszych danych rozstęp międzykwartylowy wyniósł: \textbf{16}
+	\subsubsection*{Wariancja z próby}
 	$$S^2=\frac{1}{n-1}\sum\limits_{i=1}^{n}(x_i - \overline{x})^2$$
 	Wariancja to średnia arytmetyczna kwadratów odchyleń poszczególnych wartości zbioru i cechy od wartości oczekiwanej (przypadek obciążony).  Informuje nas, jak bardzo zróżnicowany jest zbiór pod kątem koncentracji wokół średniej bądź też rozproszenia - im bliżej zera, tym mniej zróżnicowane wartości w próbie. Jeżeli chcemy uzyskać wariancję nieobciążoną, w mianowniku musimy zamienić $n$ na $n-1$.
-	\subsubsection{Odchylenie standardowe}
+	\\Dla naszych danych nieobciążona wariancja z próby wyniosła: \textbf{210.568}
+	\subsubsection*{Odchylenie standardowe}
 	
 	$$S=\sqrt{S^2}$$
 	
 	Odchylenie standardowe to pierwiastek z wariancji z próby. Pokazuje rozrzut danych wokół średniej.
+	\\Dla naszych danych odchylenie standardowe wyniosło: \textbf{14.511}
 	
-	\subsubsection{Współczynnik zmienności}
+	\subsubsection*{Współczynnik zmienności}
 	$$V=\frac{S}{\overline{x}} \quad (\cdot 100\%)$$
 	
 	Wartość współczynnika zmienności wyznacza zróżnicowanie cechy i świadczy o niejednorodności badanej próby. Im mniejsza wartość, tym mniejsza zmienność cechy. Współczynnik zmienności jest ilorazem (wynikiem dzielenia) odchylenia standardowego cechy oraz jej średniej arytmetycznej.
+	\\Dla naszych danych współczynnik zmienności wyniósł: \textbf{6.532\%}
 	
 	\subsection{Miary asymetrii}
-	\subsubsection{Współczynnik skośności (asymetrii)}
+	\subsubsection*{Współczynnik skośności (asymetrii)}
 	
 	$$\alpha =\frac{n}{(n-1)(n-2)}\sum\limits_{i=1}^{n}(\frac{x_i-\overline{x}}{S})^3$$
 	$$\alpha_1 =\frac{\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^3}{(\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^2)^{\frac{3}{2}}}$$
 	
 	Współczynnik asymetrii służy do badania kształtu rozkładu próby. Jeżeli jego wartość jest ujemna, to grzbiet rozkładu znajduje się po lewej stronie od średniej (lewostronna skośność). W przeciwnym wypadku mówimy o prawostronnej skośności. 
+	\\Dla naszych danych współczynnik skośności $\alpha$ wyniósł: \textbf{X} natomiast $\alpha_1$: \textbf{-0.848}
 	
 	\subsection{Miary spłaszczenia (koncentracji)}
 	
 	Miary koncentracji, tak jak nazwa wskazuje, mówi o koncentracji rozkładu próby wokół jej średniej.
 	
-	\subsubsection{Kurtoza}
-	$$K_1 =\frac{\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^4}{(\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^2)^2}$$
+	\subsubsection*{Kurtoza}
 	$$K=\frac{n-1}{(n-2)(n-3)}((n+1)K_1-3(n+1))+3$$
+	$$K_1 =\frac{\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^4}{(\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^2)^2}$$
 	
 	Kurtoza jest miarą ilości wartości odstających w próbie. Dla rozkładu normalnego (w naszym przypadku) wynosi 3. Im mniejsza jej wartość, tym bardziej dane z próby są skupione wokół średniej.
+	\\Dla naszych danych kurtoza $K$ wyniosła: \textbf{X} natomiast $K_1$: \textbf{8.407}
 	
 	\subsection{Tabela}
 	\begin{longtable}[c]{| c | c |}
@@ -137,8 +153,8 @@
 		\multicolumn{1}{|l|}{średnia geometryczna}          & 221.643    \\ \hline
 		\multicolumn{1}{|l|}{średnia ucinana}               & 222.104    \\ \hline
 		\multicolumn{1}{|l|}{średnia Winsorowska}           & 222.182    \\ \hline
-		\multicolumn{1}{|l|}{mediana Q2}                    & 214        \\ \hline
-		\multicolumn{1}{|l|}{Q1}                            & 221        \\ \hline
+		\multicolumn{1}{|l|}{mediana Q2}                    & 221        \\ \hline
+		\multicolumn{1}{|l|}{Q1}                            & 214        \\ \hline
 		\multicolumn{1}{|l|}{Q3}                            & 230        \\ \hline
 		\multicolumn{2}{|l|}{\cellcolor[HTML]{DBDBDB}Miary rozproszenia} \\ \hline
 		\multicolumn{1}{|l|}{rozstęp}                       & 166        \\ \hline
@@ -148,27 +164,34 @@
 		\multicolumn{1}{|l|}{odchylenie standardowe}        & 14.511     \\ \hline
 		\multicolumn{1}{|l|}{współczynnik zmienności}       & 6.532      \\ \hline
 		\multicolumn{2}{|l|}{\cellcolor[HTML]{DBDBDB}Miary asymetrii}    \\ \hline
-		\multicolumn{1}{|l|}{współczynnik skośności I}      & XD          \\ \hline
-		\multicolumn{1}{|l|}{współczynnik skośności II}     & -0.848     \\ \hline
+		\multicolumn{1}{|l|}{współczynnik skośności $\alpha$}      & XD          \\ \hline
+		\multicolumn{1}{|l|}{współczynnik skośności $\alpha_1$}     & -0.848     \\ \hline
 		\multicolumn{2}{|l|}{\cellcolor[HTML]{DBDBDB}Miary spłaszczenia} \\ \hline
-		\multicolumn{1}{|l|}{Kurtoza}                       & 8.407      \\ \hline
+		\multicolumn{1}{|l|}{Kurtoza $K$}                       & 8.407      \\ \hline
+		\multicolumn{1}{|l|}{Kurtoza $K_1$}                       & 8.407      \\ \hline
 	\end{longtable}
 	
 	\section{Wizualizacja}
 	\subsection{Histogram}
 	\begin{figure}[H]
+	\begin{center}
 		\includegraphics[scale=0.75]{HISTOGRAM.eps}
+	\end{center}
 	\end{figure}
+Na histogramie widzimy rozkład danych z badanej próby. Jest to dobry sposób wizualizacji danych, ponieważ można dzięki niemu łatwo oszacować niektóre statystyki takie jak średnia, skośność itp. Widzimy, że dla naszych danych najczęściej obserwujemy długości ogona zawarte w przedziale 220 do 225 mm.
 	\subsection{Boxplot}
 	\begin{figure}[H]
+	\begin{center}
 		\includegraphics[scale=0.75]{BOXPLOT.eps}
+	\end{center}
 	\end{figure}
+Wykres pudełkowy (ang. \textit{boxplot)} jest to graficzna reprezentacja mediany, kwartyli oraz maksimum i minimum z danych, wąsy mają długość półtorej wartości rozstępu międzykwartylowego.
 	\subsection{Dystrybuanta empiryczna}
 	\begin{figure}[H]
 		\includegraphics[scale=0.75]{DYSTRYBUANTA.eps}
 	\end{figure}
-	
+Dystrybuanta empiryczna pokazuje z jakim prawdopodobieństwem natrafimy na myszołowa rdzawosternego o długości ogona mniejszej bądź równej od danej wartości. Widzimy, że szansa na to, aby spotkać osobnika z ogonem krótszym niż 200 mm lub dłuższym niż 250 mm jest nikła, natomiast długości między 200 a 250 mm występują najczęściej.
 	\section{Podsumowanie}
-	
+Analizując przedstawione w raporcie statystyki możemy sformułować następujące wnioski i przypuszczenia dotyczące długości ogonów w populacji myszołowów rdzawosternych. Z histogramu widzimy, że badany rozkład przypomina rozkład normalny, jednak po obliczeniu skośności okazuje się, że różni się ona od skośności rozkładu normalnego, która wynosi zero. Podejrzewamy, iż może to być spowodowane licznością próby. Statystyczny myszołów rdzawosterny powinien mieć ogon o długości od $207,638$ do $236.66$ mm, (średnia arytmetyczna $\pm$ odchylenie standardowe). Biorąc średnią z populacji przewidujemy długość około $222,15$ mm. Wartości skrajne nie wpływają znacząco na wartość średniej - wiemy to po obliczeniu średniej Winsorowskiej ($222,182$ mm) i ucinanej ($222,104$ mm). 
 	
 \end{document}
