@@ -47,8 +47,13 @@
 	\clearpage
 \section{Wstęp}
 
+Niniejszy raport powstał na potrzeby realizacji laboratorium ze Statystyki Stosowanej, prowadzonych przez dr inż. Aleksandrę Grzesiek, do wykładu dr hab. inż. Krzysztofa Burneckiego. Będziemy analizować dane dotyczące długości ogonów myszołowów rdzawosternych (ang. red-tailed hawk). Dysponujemy próbą o wielkości 577 pobraną ze strony [1] . Na jej podstawie przedstawimy statystyki podzielone według miar położenia, rozproszenia, asymetrii oraz spłaszczenia. Na koniec pierwszego rozdziału zebrane wielkości przedstawimy w formie tabeli.  W drugiej części raportu zwizualizjemy dane za pomocą histogramu oraz wykresu pudełkowego. Wyznaczymy ponadto dystrybuantę empiryczną analizowanej próby. Na koniec wyniki badań omówimy w podsumowaniu. Życzymy Czytelnikowi miłej lektury.
+
 \section{Poznane statystyki}
 \subsection{Miary położenia}
+
+Miary położenia określają położenie pojedynczej wartości w stosunku do innych wartości w próbie. 
+
 \subsubsection{Średnia arytmetyczna}
 $$\overline{x}=\frac{1}{n}\sum\limits_{i=1}^{n}x_i$$
 Jest to suma wszystkich wartości z próby, podzielona przez ich ilość. Chociaż średnia arytmetyczna jest często używana do określania tendencji centralnej, nie jest to tzw statystka odpornościowa, co oznacza, że duży wpływ na nią mają wartości odstające. W przypadku rozkładów skośnych, takich jak np rozkład dochodów, w którym dochody kilku osób są znacznie wyższe niż dochody większości, średnia arytmetyczna może nie pokrywać się z naszym pojęciem "środka", dlatego lepiej można go określić z pomocą innych statystyk.\\
@@ -82,6 +87,9 @@ $$x_{med}=
 \end{itemize}
 
 \subsection{Miary rozproszenia}
+
+Miary rozproszenia pozwalają określić zróżnicowanie wartości danej cechy wokół wartości centralnych (np. mediany, średniej).  Wskazują one, czy wyniki są zbliżone do wartości centralnej, czy też są znaczne różnice między poszczególnymi wynikami. Jeśli rozproszenie jest duże to wyliczona wartość centralna najczęściej niewiele nam powie o badanej grupie, jeśli wynik jest natomiast mały, to oznacza, że średnia lub mediana dobrze reprezentują wszystkie jednostki.
+
 \subsubsection{Rozstęp}
 $$R=x_n-x_1$$
 Jest to najprostsza miara rozproszenia - różnica między największą a najmniejszą zaobserwowaną wartością z próby. 
@@ -92,18 +100,33 @@ $$IQR=Q3-Q1$$
 $$S^2=\frac{1}{n-1}\sum\limits_{i=1}^{n}(x_i - \overline{x})^2$$
 Wariancja to średnia arytmetyczna kwadratów odchyleń poszczególnych wartości zbioru i cechy od wartości oczekiwanej (przypadek obciążony).  Informuje nas, jak bardzo zróżnicowany jest zbiór pod kątem koncentracji wokół średniej bądź też rozproszenia - im bliżej zera, tym mniej zróżnicowane wartości w próbie. Jeżeli chcemy uzyskać wariancję nieobciążoną, w mianowniku musimy zamienić $n$ na $n-1$.
 \subsubsection{Odchylenie standardowe}
+
 $$S=\sqrt{S^2}$$
+
+Odchylenie standardowe to pierwiastek z wariancji z próby. Pokazuje rozrzut danych wokół średniej.
+
 \subsubsection{Współczynnik zmienności}
 $$V=\frac{S}{\overline{x}} \quad (\cdot 100\%)$$
 
+Wartość współczynnika zmienności wyznacza zróżnicowanie cechy i świadczy o niejednorodności badanej próby. Im mniejsza wartość, tym mniejsza zmienność cechy. Współczynnik zmienności jest ilorazem (wynikiem dzielenia) odchylenia standardowego cechy oraz jej średniej arytmetycznej.
+
 \subsection{Miary asymetrii}
 \subsubsection{Współczynnik skośności (asymetrii)}
+
 $$\alpha =\frac{n}{(n-1)(n-2)}\sum\limits_{i=1}^{n}(\frac{x_i-\overline{x}}{S})^3$$
 $$\alpha_1 =\frac{\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^3}{(\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^2)^{\frac{3}{2}}}$$
+
+Współczynnik asymetrii służy do badania kształtu rozkładu próby. Jeżeli jego wartość jest ujemna, to grzbiet rozkładu znajduje się po lewej stronie od średniej (lewostronna skośność). W przeciwnym wypadku mówimy o prawostronnej skośności. 
+
 \subsection{Miary spłaszczenia (koncentracji)}
+
+Miary koncentracji, tak jak nazwa wskazuje, mówi o koncentracji rozkładu próby wokół jej średniej.
+
 \subsubsection{Kurtoza}
 $$K_1 =\frac{\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^4}{(\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^2)^2}$$
 $$K=\frac{n-1}{(n-2)(n-3)}((n+1)K_1-3(n+1))+3$$
+
+Kurtoza jest miarą ilości wartości odstających w próbie. Dla rozkładu normalnego (w naszym przypadku) wynosi 3. Im mniejsza jej wartość, tym bardziej dane z próby są skupione wokół średniej.
 
 \subsection{Tabela}
 \begin{longtable}[c]{| c | c |}
@@ -125,7 +148,7 @@ $$K=\frac{n-1}{(n-2)(n-3)}((n+1)K_1-3(n+1))+3$$
 \multicolumn{1}{|l|}{odchylenie standardowe}        & 14.511     \\ \hline
 \multicolumn{1}{|l|}{współczynnik zmienności}       & 6.532      \\ \hline
 \multicolumn{2}{|l|}{\cellcolor[HTML]{DBDBDB}Miary asymetrii}    \\ \hline
-\multicolumn{1}{|l|}{współczynnik skośności I}      & ?          \\ \hline
+\multicolumn{1}{|l|}{współczynnik skośności I}      & XD          \\ \hline
 \multicolumn{1}{|l|}{współczynnik skośności II}     & -0.848     \\ \hline
 \multicolumn{2}{|l|}{\cellcolor[HTML]{DBDBDB}Miary spłaszczenia} \\ \hline
 \multicolumn{1}{|l|}{Kurtoza}                       & 8.407      \\ \hline
