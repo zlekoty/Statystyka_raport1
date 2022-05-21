@@ -7,7 +7,7 @@
 \usepackage[hidelinks,breaklinks,pdfusetitle,pdfdisplaydoctitle]{hyperref}
 \setlength{\droptitle}{-1cm}
 \mathtoolsset{showonlyrefs,mathic}
-\title{Statystyka stosowana raport 1}
+\title{Statystyka Stosowana raport 1}
 \author{Adam Wrzesiński, Joanna Kołaczek}
 \date{30.04.2022}
 \newtheoremstyle{break}
@@ -64,11 +64,11 @@
 	Dla naszych danych średnia harmoniczna wyniosła: \textbf{221.085}
 	\subsubsection*{Średnia geometryczna}
 	$$\overline{x}_g=\sqrt{\prod\limits_{i=1}^{n}x_i}$$
-	Jest to pierwiastek stopnia $n$ z iloczynu $n$ wartości próby. Średnia geometryczna jest często stosowana w przypadku zbioru liczb które mają charakter wykładniczy, np. zbioru danych dotyczących wzrostu: wartości populacji ludzkiej lub stóp procentowych inwestycji finansowych w czasie.
+	Jest to pierwiastek stopnia $n$ z iloczynu $n$ wartości próby. Średnia geometryczna jest często stosowana w przypadku zbioru liczb które mają charakter wykładniczy, np. zbioru danych dotyczących wzrostu: wartości populacji ludzkiej lub stóp procentowych inwestycji finansowych w czasie.\\
 	Dla naszych danych średnia geometryczna wyniosła: \textbf{221.643}
 	\subsubsection*{Średnia ucinana}
 	$$\overline{x}_u=\frac{1}{n-2k}\sum\limits_{i=k+1}^{n-k}x_i$$
-	Liczy się ją tak jak średnią arytmetyczną, jednak odrzuca się określony procent wartości skrajnych. Dzięki temu jest to estymator wrażliwy na wartości odstające - w przeciwieństwie do średniej arytmetycznej jest to prosty przykład statystyki odpornościowej. Używana chociażby przy ocenianiu przez sędziów w zawodach. Średnia obcięta wykorzystuje więcej informacji z rozkładu lub próby niż mediana, ale o ile rozkład podstawowy nie jest symetryczny, jest mało prawdopodobne, aby średnia obcięta z próby dała bezstronny estymator zarówno średniej, jak i mediany.
+	Liczy się ją tak jak średnią arytmetyczną, jednak odrzuca się określony procent wartości skrajnych. Dzięki temu jest to estymator wrażliwy na wartości odstające - w przeciwieństwie do średniej arytmetycznej jest to prosty przykład statystyki odpornościowej. Używana chociażby przy ocenianiu przez sędziów w zawodach. Średnia obcięta wykorzystuje więcej informacji z rozkładu lub próby niż mediana, ale o ile rozkład podstawowy nie jest symetryczny, jest mało prawdopodobne, aby średnia obcięta z próby dała bezstronny estymator zarówno średniej, jak i mediany.\\
 	Dla naszych danych średnia ucinana wyniosła: \textbf{222.104}
 	\subsubsection*{Średnia Winsorowska}
 	$$\overline{x}_w=\frac{1}{n}[(k+1)x_{k+1}\sum\limits_{i=k+2}^{n-k-1}x_i +(k+1)x_{n-k}]$$
@@ -76,13 +76,13 @@
 	\\Dla naszych danych średnia Winsorowska wyniosła: \textbf{222.182}
 	\subsubsection*{Kwantyle}
 	Kwantyle dzielą uporządkowaną próbę na mniejsze grupy o równej ilości elementów. Najbardziej "znanym" kwantylem jest mediana, wartość środkowa, powyżej i poniżej niej znajduje się 50\% obserwacji. Dobrze się sprawdza gdy chcemy porównać zarobki ale znajduje też zastosowanie w~grafice komputerowej, gdzie przydaje się przy odszumianiu. Kwartyle, które wskazują na dolne i~górne 25\% również często pojawiają się przy porównywaniu wynagrodzeń.
-	\paragraph{Mediana}
+	\paragraph{$\triangleright$ Mediana}
 	$$x_{med}=
 	\begin{cases}
 		x, &  \text{gdy $n$ jest nieparzyste }\\
 		\frac{1}{2}(x_{\frac{n}{2}}+x_{\frac{n}{2}+1}), &  \text{gdy $n$ jest parzyste}\\
 	\end{cases}$$
-	\paragraph{Kwartyle}
+	\paragraph{$\triangleright$ Kwartyle}
 	\begin{itemize}
 		\item drugi kwartyl ($Q2$) to mediana
 		\item pierwszy kwartyl ($Q1$) to mediana grupy obserwacji mniejszych od $Q2$
@@ -144,7 +144,7 @@
 	$$K_1 =\frac{\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^4}{(\frac{1}{n}\sum\limits_{i=1}^{n}(x_i-\overline{x})^2)^2}$$
 	
 	Kurtoza jest miarą ilości wartości odstających w próbie. Dla rozkładu normalnego (w naszym przypadku) wynosi 3. Im mniejsza jej wartość, tym bardziej dane z próby są skupione wokół średniej. Bardziej odporna na wartości odstające jest kurtoza $K$.
-	\\Dla naszych danych kurtoza $K$ wyniosła: \textbf{11.407} natomiast $K_1$: \textbf{11.407}
+	\\Dla naszych danych kurtoza $K$ i $K_1$ wyniosły: \textbf{11.407}.
 	
 	\begin{figure}[H]
 	\subsection{Tabela}
