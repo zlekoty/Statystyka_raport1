@@ -205,5 +205,13 @@ Obserwując średni czas wyjścia, w zależności od początkowego $x$, widzimy 
  $$\beta=P(B_{\tau^x}^x=b),$$
 jest równe prawdopodobieństwu wyjścia przez granicę $a$: $$\alpha=1-\beta=P(B_{\tau^x}^x=a),$$
 $$\alpha=\beta=\frac{1}{2}.$$
-
+----------------------------------------------------\\
+Funkcja autokowariancji
+\begin{gather}
+	Cov(B_t,B_s)=\mathbb{E}(B_sB_t)-\mathbb{E}B_s\mathbb{E}B_t=\\
+	=\mathbb{E}(B_s(B_sB_t))+\mathbb{E}(B_s^2)\\
+	=\mathbb{E}B_s\mathbb{E}(B_sB_t)+\mathbb{E}B_s^2=s
+\end{gather}
+Ogólnie
+$$Cov(B_t,B_s)=\min\{s,t\}$$
 \end{document}
