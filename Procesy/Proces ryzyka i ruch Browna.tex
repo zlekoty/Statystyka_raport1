@@ -59,11 +59,10 @@
 \newpage
 \section*{Wstęp}
 
-Niniejszy raport powstał na potrzeby realizacji laboratorium Symulacji Komputerowych, prowadzonych przez dr inż. Mateusza Świtałę, do wykładu prof. dr hab. inż. Marcina Magdziarza. Stanowi on niejako podsumowanie całego semestru, gdyż do jego realizacji są potrzebne zagadnienia poznane w ciągu całego semestru letniego w roku akademickim 2021/2022. Nie tylko z zakresu tego kursu
-lecz także ze Statystyki Stosowanej. Zanim przejdziemy do modelowania procesu Ryzyka lub procesu Browna, omówimy pokrótce właśnie te zagadnienia. Każde zadanie jest poprzedzone wstępem złożonym z wyjaśniienia owych zagadnień. Nie będziemy przy tym sprawdzać poprawności generatorów zmiennych losowych (ODWOŁAĆ SIĘ), gdyż uczyniliśmy już to w poprzedniej pracy.
+Niniejszy raport powstał na potrzeby realizacji laboratorium Symulacji Komputerowych, prowadzonych przez dr inż. Mateusza Świtałę, do wykładu prof. dr hab. inż. Marcina Magdziarza. Stanowi on niejako podsumowanie całego semestru, gdyż do jego realizacji są potrzebne zagadnienia poznane w ciągu ostatniich czterech miesięcy. Nie tylko z zakresu tego kursu
+lecz także ze Statystyki Stosowanej. Zanim przejdziemy do modelowania procesu Ryzyka lub procesu Browna, omówimy pokrótce właśnie te zagadnienia. Każde zadanie jest poprzedzone wstępem złożonym z wyjaśnienia owych zagadnień. Nie będziemy przy tym sprawdzać poprawności generatorów zmiennych losowych, gdyż uczyniliśmy już to w poprzedniej pracy.
 Przypomnimy natomiast krótko algorytmy, które przydadzą się do wykonania postawionych przed nami zadań. Omówimy pokrótce dwa testy zgodności - \emph{Kołmogorowa-Smirnova} oraz \emph{Andersona-Darlinga}. Przedstawimy ich statysyki testowe, algorytmy implementacji oraz pokażemy, jak za pommocą metody Monte Carlo znaleźć \emph{p-wartość} danego testu.
-Następnie przejdziemy do \emph{Jednorodnego procesu Poissona}, \emph{ogólnego procesu Ryzyka} i ich własności. Zebrana w ten sposób wiedza pozwoli przeanalizować konkretny przypadek klasycznego modelu procesu Ryzyka - za pomocą 50 trajektorii zadanch na pewnym horyzoncie czasowym $T$  i danym kroku $h$. Krok po kroku oszacujemy kolejne potrzebne nam wartości do osiągnięcia celu, jakim jest oszacowanie prawdopodobieństwa brankructwa danej spółki ubezpieczeniowej. W kolejnym rozdziale rozważymy problem ruch Browna. (UZUPEŁNIĆ)
-Do każdej metody zapiszemy algorytm, dzięki czemu w pewien sposób poniższa praca będzie niezależna i wystarczająca do odtworzenia rozwiązania zadań. Życzymy miłej lektury!
+Następnie przejdziemy do \emph{Jednorodnego procesu Poissona}, \emph{ogólnego procesu Ryzyka} i ich własności. Zebrana w ten sposób wiedza pozwoli przeanalizować konkretny przypadek klasycznego modelu procesu Ryzyka - za pomocą 50 trajektorii zadanch na pewnym horyzoncie czasowym $T$  i danym kroku $h$. Krok po kroku oszacujemy kolejne potrzebne nam wartości do osiągnięcia celu, jakim jest oszacowanie prawdopodobieństwa brankructwa danej spółki ubezpieczeniowej. W kolejnym rozdziale, będziemy badać zależność między punktem startowym procesu Wienera, a średnim czasem przekroczenia ustalonych granic, oraz prawdopodobieństwem przez którą granice nastąpi to przekroczenie. Później spróbujemy aproksymować funkcje, które odzwierciedlają uzyskane rezultaty. Do każdej metody zapiszemy algorytm, dzięki czemu w pewien sposób poniższa praca będzie niezależna i wystarczająca do odtworzenia rozwiązania zadań. Życzymy miłej lektury!
 
 \newpage
 
@@ -71,7 +70,7 @@ Do każdej metody zapiszemy algorytm, dzięki czemu w pewien sposób poniższa p
 
 \subsection{Generowanie wybranych rozkładów prawdopodobieństwa}
 
-W tej sekcji krótko omówimy algorytmy poszczególnych rozkładów. Krótko opowiemy o rozkładach, ich podstawowych własnościach, a następnie wyznaczymy algorytm generowania zmiennej losowej z danego rozkładu. Notujemy, że wszystkie opierają się na \emph{metodzie odwrotnej dystrybuanty}.
+W tej sekcji krótko opowiemy o rozkładach, ich interpretacjach, a następnie wyznaczymy algorytm generowania zmiennej losowej z danego rozkładu. Notujemy, że wszystkie opierają się na \emph{metodzie odwrotnej dystrybuanty}.
 
 \subsubsection{Rozkład Poissona}
 
@@ -87,14 +86,14 @@ Ponieważ $k\in\mathbb{N}$, nie możemy bezpośrednio odwrócić \eqref{eq: 1.1}
 p_{i+1}=e^{-\lambda}\frac{\lambda^{(i+1)}}{(i+1)!}=e^{-\lambda}\frac{\lambda^i}{i!}\cdot \frac{\lambda}{i+1}=p_i\frac{\lambda}{i+1}. 
 \end{equation}
 
-W związku z \eqref{eq: 1.2}, wylosujemy wartość dystrybuanty $U$ i zaczniemy nasze poszukiwania od $k=0$.  Następnie będziemy się przesuwać wzdłuż osi OX, aż znajdziemy $k$ odpowiadające $U$.
+W związku z \eqref{eq: 1.2}, wylosujemy wartość dystrybuanty $U$ i zaczniemy nasze poszukiwania od $k=0$.  Następnie będziemy się przesuwać wzdłuż osi $OX$, aż znajdziemy $k$ odpowiadające $U$.\\
 
 Algorytm:
 
 \begin{enumerate}
 \item Wstaw $k = 0$, $p=\e^{-\lambda}$, $F = p$.
 \item Generuj $U \sim U(0, 1)$.
-\item Dopókii $U<= F$, wstaw:
+\item Dopóki $U<= F$, wstaw:
 \begin{flalign}
  p &= p \cdot \frac{\lambda}{k+1} && \\ F &= F + p && \\  k &= k + 1 .
 \end{flalign}
@@ -105,12 +104,14 @@ Algorytm:
 
 \subsubsection{Rozkład wykładniczy}
 
-Rozkład wykładniczy można zdefiniować się jako czas oczekiwania pomiędzy dwoma zdarzeniami. Jest to rozkład ciągły, którego dystrybuanta wyraża się wzorem \eqref{eq: 1.3}:
+Rozkład wykładniczy można zdefiniować jako czas oczekiwania pomiędzy dwoma zdarzeniami. Jest to rozkład ciągły, którego dystrybuanta wyraża się wzorem \eqref{eq: 1.3}:
 
 \begin{equation}
-F(x) = 1 - \e^{-\lambda x}, \label{eq: 1.3}
+F(x) = \begin{cases}
+  0  & x < 0 \\
+  1 - \e^{-\lambda x} & x\ge 0 \label{eq: 1.3}
+\end{cases}
 \end{equation}
-
 gdzie $\lambda > 0$ - pewien parametr częstości.
 
 Odwóćmy teraz dystrybuantę. Jest to funkcja ciągła wyrażona za pomocą funkcji elementarnych, więc wystarczą nam podstawowe przekształcenia.\\
@@ -154,7 +155,7 @@ P_k = P(X=k) = (1-p)^{k-1}p, \label{eq: 1.6}
 \begin{equation}
 P_k = P(Y = k) = (1-p)^k p, \label{eq: 1.7}
 \end{equation}
-gdzie $p \in (0,1)$ - prawdopodobieństwo sukcesu w pojedynczje próbie Bernouliego. \\
+gdzie $p \in (0,1)$ - prawdopodobieństwo sukcesu w pojedynczej próbie Bernouliego. \\
 
 Zauważmy, że
 
@@ -164,9 +165,9 @@ Y = X - 1 \label{eq: 1.8}
 
 Dowód:
 
-$$P(Y=k) = (1-p)^k p = P(X = k+1) = P(X-1 = k) \Leftrightarrow Y=X-1.$$
+$$P(Y=k) = (1-p)^k p = P(X = k+1) = P(X-1 = k) \Leftrightarrow Y=X-1. $$
 
-Tak na prawdę mamy co najmniej trzy sposoby na generowanie Y.Korzystając z \eqref{eq: 1.8}, wystarczy wygenerować $X$, a potem od jego wartośći odjąć jeden. Można wykorzystać też zależności pomiędzy kolejnymi prawdopodobieństwami - wtedy otrzymalibyśmy nieco zmodyfikowany algorytm generowanie zmiennej losowej poissonowskiej.
+Tak naprawdę mamy co najmniej trzy sposoby na generowanie Y.Korzystając z \eqref{eq: 1.8}, wystarczy wygenerować $X$, a potem od jego wartośći odjąć jeden. Można wykorzystać też zależności pomiędzy kolejnymi prawdopodobieństwami - wtedy otrzymalibyśmy nieco zmodyfikowany algorytm generowanie zmiennej losowej poissonowskiej.
 My jednak pójdziemy jeszcze inną drogą. Odwrócimy dystrybuantę $Y$. W tym wypadku nie mamy problemu z silnią. Dlatego wyznaczymy odwrotną dystrybuantę za pomocą działań na szeregach:
 
 \begin{gather}
@@ -195,11 +196,11 @@ Znów, korzystamy z faktu, że $U \buildrel d \over =1- U$ i ostatecznie zapisuj
 \begin{equation}
  j=\left \lfloor{\frac{\log(U)}{\log(1-p)}}\right \rfloor. \label{eq: 1.10}
 \end{equation}
-
+\\
 Algorytm:
 
 \begin{enumerate}
-\item generuj $U \sim U(0, 1)$.
+\item Generuj $U \sim U(0, 1)$.
 \item Zwróć $\lfloor{\frac{\log{U}}{1-p}}\rfloor$.
 \end{enumerate}
 
@@ -210,15 +211,15 @@ Symulując proces Wienera, będziemy potrzebowali generatora zmiennych losowych 
 \begin{equation}
 	f(x) = \frac{1}{\sqrt{2\pi}\sigma}\e^{-\frac{(x-\mu)^2}{2\sigma^2}}, \label{eq:normalny}
 \end{equation}
-gdzie $\mu$ i $\sigma^2$ oznaczją odpowiednio średnią oraz wariancję rozkładu.\\
+gdzie $\mu$ i $\sigma^2$ oznaczają odpowiednio średnią oraz wariancję rozkładu.\\
 
 Zastosujemy metodę biegunową. Jej zaletą jest to, że jest bardzo szybka i otrzymujemy dwie niezależne zmienne losowe z rozkładu standardowego.
-Przypomnijmy postać algorytmu Załóżmy, że wektor losowy $(V_1,V_2)$ ma rozkład jednostajny w kole jednostkowym $V_1=R\cos\alpha,\quad V_2=R\sin\alpha,\quad R^2=V_1^2+V_2^2$.\\\\
+Przypomnijmy postać algorytmu. Załóżmy, że wektor losowy $(V_1,V_2)$ ma rozkład jednostajny w kole jednostkowym $V_1=R\cos\alpha,\quad V_2=R\sin\alpha,\quad R^2=V_1^2+V_2^2$.\\\\
 Algorytm:
 \begin{enumerate}
     \item Generuj $V_1 ,V_2, \dots, V_i \sim U(-1,1), \quad V_1\indep V_2 $.
     \item Wygeneruj $R^2 = V_1^2 + V_2^2$.
-    \item Jeśli $R^2>1 $ wróć do kroku$1$.
+    \item Jeśli $R^2>1 $ wróć do kroku pierwszego.
     \item Wstaw $X=\sqrt{\frac{-2\log R^2}{R^2}}V_1 \quad Y=\sqrt{\frac{-2\log R^2}{R^2}}$.
 \end{enumerate}
 
@@ -244,7 +245,7 @@ Można pokazać, że dla $n\rightarrow\infty$
 
 $$\sqrt{n}D_n \rightarrow \sup_t|B(F(t))|,$$
 
-gdzie $B$ to most Browna. Ponadto, jeśli $F$ jest ciągła, to $$\sup_t|B(F(t))|=\sup_{t\in[0,1]}|B(F(t))|$$.
+gdzie $B$ to most Browna. Ponadto, jeśli $F$ jest ciągła, to $$\sup_t|B(F(t))|=\sup_{t\in[0,1]}|B(F(t))|. $$
 Wtedy mamy do czynienia z rozkładem Kołmogorowa, niezależnym od $F$ \cite{R. M. Dudley}.
 
 \eqref{eq: 1.11} można zapisać w postaci $\max_j \{D^{+}, D^{-}\}$, gdzie:
@@ -319,7 +320,7 @@ Algorytm:
 \item Wybierz test zgodności.
 \item Ustal długość badanej próby $n$, ilość symulacji $L$ oraz $s = 0$.
 \item Wyznacz statystykę $z$ z pierwotnej próby.
-\item Wygenerój próbę losową $X$ o liczności $n$ pochodzącą z wybrangeo rozkładu.
+\item Wygeneruj próbę losową $X$ o liczności $n$ pochodzącą z wybrangeo rozkładu.
 \item Wyestymuj wektor nieznanych parametrów  $\theta_2$ próby losowej.
 \item Wyznacz odpowiednią statystykę testową $S$ za pomocą $X$.
 \item Sprawdź, czy zachodzi $S \ge z$. Jeśli tak, zwiększ $s$ o jeden.
@@ -330,7 +331,7 @@ Algorytm:
 
 \subsection{Jednorodny Proces Poissona}
 
-\textbf{Jednorodnym procesem Poissona} z parametrem intensywności $\lambda > 0$ nazywamy proces liczący $\{N(t), t\ge0\}$, który spełnia następujące założenia:
+\textbf{Jednorodnym procesem Poissona} z parametrem intensywności $\lambda > 0$ nazywamy proces liczący $\{N(t),~t\ge~0~\}$, który spełnia następujące założenia:
 \begin{itemize}
 \item $N(0) = 0$
 \item $N(t)$ ma niezależne przyrosty.
@@ -339,7 +340,7 @@ Algorytm:
 \end{itemize}
 
 Niezależność przyrostów oznacza, że ilość skoków na zadanym przedziale czasowym nie zależy od tego co się działo ani wcześniej ani później. Zapiszmy to w sposób matematyczny:\\
- $\forall{0\le t_1<t_2<...<t_n}$ zmienne losowe $N(t_2)- N(t_1)$, $N(t_3)-N(t_2)$, ...,~ $N(t_n)- N(t_{n-1})$ są niezależne.\\
+ $\forall{(0\le t_1<t_2<...<t_n)}$ zmienne losowe $N(t_2)- N(t_1)$, $N(t_3)-N(t_2)$, ...,~ $N(t_n)- N(t_{n-1})$ są niezależne.\\
 Stacjonarność przyrostów mówi natomiast o tym, że $N(t+s)-N(t)\buildrel d \over = N(s)$. Oznacza to, że danym przedziale czasowym powinno wystąpić średnio tyle samo skoków, co na innym dowolnie wybranym przedziale o tej samej długości.
 
 \begin{figure}[H]
@@ -352,7 +353,7 @@ Stacjonarność przyrostów mówi natomiast o tym, że $N(t+s)-N(t)\buildrel d \
 Aby wysymulować pojedynczą trajektorię procesu Poissona, wykorzystamy fakt, że czasy oczekiwania na kolejny skok pochodzą z rozkładu wykładniczego o parametrze $\lambda$. \eqref{eq: 1.13}
 Jeśli znamy wektor kolejnych skoków $N(t)$, to wiemy też, jak wygląda cała trajektoria $N(t)$. Przykład możemy zobaczyć na rys. \ref{fig: 1}.\\
 
-Niech $T$ będzie oznaczać czas oczekiwania na kolejny skok w Jednorodnym Procesie Poissona z parametrem intensywności $\lambda$.
+Niech $T$ będzie oznaczać czas oczekiwania na kolejny skok w Jednorodnym Procesie Poissona z parametrem intensywności $\lambda$. Pokażemy, że $T \sim Exp(\lambda)$.
 \begin{equation}
 P(T>\tau) = P(N(\tau)=0) = \e^{-\lambda t} \Rightarrow T \sim Exp(\lambda) \label{eq: 1.13}.
 \end{equation}
@@ -367,7 +368,7 @@ Algorytm:
 \end{enumerate} 
 
 Sprawdźmy poprawność tego algorytmu. Narysujmy na wykresie (rys. \ref{fig: 2}) 100 trajektorii i nanieśmy średnią wartość procesu. Korzystając z definicji Jednorodnego Procesu Poissona wiemy, że w danym punkcie $t$, średnio powinniśmy znaleźć się w punkcie $\lambda t$.
-Rzeczywiście, trajektorie oplatają wartość średnią. Na tej podstawie stwierdzamy, że generator trajketorii jest poprawny.
+Rzeczywiście, trajektorie oplatają wartość średnią. Na tej podstawie stwierdzamy, że generator trajektorii jest poprawny.
 
 \begin{figure}[H]
 	\center
@@ -389,7 +390,7 @@ gdzie:
 \end{itemize}
 
 Oczywiście $c(t)$ powinno być dobrane w taki sposób, aby firma nie tylko nie zbankrutowała, ale także przynosiła zyski. W naszych rozważaniach przyjmujemy, że firma nie ma możliwości wzięcia kredytu. To znaczy moment, w którym kapitał firmy spada poniżej zera nazywamy \textbf{momentem~ruiny}.
-Matematycznie: $$\tau(u) \buildrel def \over = \inf\{t\ge 0: R(t) < 0\}$$.\\
+Matematycznie: $$\tau(u) \buildrel def \over = \inf\{t\ge 0: R(t) < 0\}. $$\\
 Zakładamy, że trajektorie procesu są lewostronnie ciągłe.
 Zapiszmy algorytm pozwalając wykonać symulację $R(t)$ na zadanym przedziale czasowym $[0, T]$, $T>0$.\\
 Algorytm:
@@ -408,13 +409,13 @@ gdzie $\mu$ - średnia wypłata odszkodowania ($\EX X_1$).\\
 Więc już wiemy, że $c(t) >  \mu \lambda t$, ponieważ zakład chce zarobić. Aby dokładniej opisać naszą funkcję premii, wprowadźmy pojęcie \emph{narzutu} $\theta >0$, które będziemy interpretować jako tempo sprzedaży polis ubezpieczoniowych. Zapiszmy ostatecznie:
 
 \begin{equation}
-c(t) = (1+\theta)\mu \lambda t.
+c(t) = (1+\theta)\mu \lambda t. \label{eq:c}
 \end{equation}
 
 Możemy już przedstawić pełną postać klasycznego procesu $R(t)$:
 
 \begin{equation}
-R(t) = u +  (1+\theta)\mu \lambda t- \sum_{i=1}^{N(t)}X_i.
+R(t) = u +  (1+\theta)\mu \lambda t- \sum_{i=1}^{N(t)}X_i. \label{eq: class}
 \end{equation}
 
 Przykładową trajektorię takiego procesu można zobaczyć na rys. \ref{fig: 3}.
@@ -435,7 +436,7 @@ Przykładową trajektorię takiego procesu można zobaczyć na rys. \ref{fig: 3}
 	\item $B_t-B_s\sim N(0,~t-s)$, dla $0\leq s<t$.
 	\item $B$ ma trajektorie ciągłe z prawdopodobieństwem 1.
 \end{itemize}
-W zadaniu będziemy posługiwać się jego zmodyfikowaną wersją:
+W tej pracy ograniczymy się do jego zmodyfikowanej wersji:
 $$B_t^x=B_t^0+x,$$
 Gdzie $B_t^0$ to klasyczny ruch Browna. Oznacza to tyle, że proces $B_t^x$ rozpoczyna się w punkcie $x$. Chcąc uzyskać jego numeryczne przybliżenie przy pomocy symulacji komputerowej, wykorzystamy następujący algorytm:
 \\ \\
@@ -444,8 +445,9 @@ Algorytm(0)
 	\item $B_0^x=x$
 	\item $B_{i+1}^x=B_{i}^x+dt^{\frac{1}{2}}\psi_i$
 \end{enumerate}
-gdzie $\psi_i\sim N(0,1),\quad i.i.d$, natomiast $dt$ to najmniejszy krok czasowy.\\ \\ 
+gdzie $\psi_i\sim N(0,1),\quad i.i.d$, natomiast $dt$ to najmniejszy krok czasowy. Algorytm dla wersji procesu startującego w zerze jest nieomal identyczny.\\ \\ 
 
+Ponieważ ruch Browna jest procesem gausowskim, jest on wyznaczony jednoznacznie przez wartość średnią, oraz autokowariancję:\\\\
 Funkcja autokowariancji
 \begin{gather}
 	Cov(B_t,B_s)=\mathbb{E}(B_sB_t)-\mathbb{E}B_s\mathbb{E}B_t=\\
@@ -477,7 +479,7 @@ $$Cov(B_t,B_s)=\min\{s,t\}$$
 \subsection{Wizualizacja danych}
 
 Dysponujemy 50-cioma trajektoriami z pewnego klasycznego procesu Ryzyka $R(t)$ wygenerowanych na odcinku $[0,T]$, $T= 100$ z krokiem $h = 0.01$ i kapitałem początkowym $u=50$. Naszym pierwszym celem będzie znalezienie jawnej postaci $R(t)$.\\
-Zacznijmy od zwizualizowania danych trajektorii na wykresie \ref{fig: wizualizacja}. Niestety, z samego wykresu nie jesteśmy zbyt wiele wywnioskować. Z trajektorii odstających wnioskujemy, że rzeczywiście przyrost kapitału jest liniowy. Na ten moment nie wiemy nic o rozkładzie wypłat.
+Zacznijmy od zwizualizowania danych trajektorii na wykresie \ref{fig: wizualizacja}. Niestety, z samego wykresu nie jesteśmy zbyt wiele wywnioskować. Z trajektorii odstających upewniamy się, że rzeczywiście przyrost kapitału jest liniowy. Na ten moment nie wiemy nic o rozkładzie wypłat.
 Widzimy za to kilka odstających trajektorii, które mogą zaniżać średnią wartość procesu.
 
 \begin{figure}[H]
@@ -489,7 +491,7 @@ Widzimy za to kilka odstających trajektorii, które mogą zaniżać średnią w
 
 \subsection{Oszacowanie parametru intensywności procesu Poissona}
 
-Pomysł: Jeśli $N(t)$ to jednorododny proces Poissona z parametrem intensywności $\lambda$, to czasy oczekiwania na kolejny skok są z rozkładu wykładniczego z tym samym parametrem, co już pokazaliśmy wcześniej. W związku z tym należy znaleźć momenty tych skoków, a następnie z nich wyłuskać czasy oczekiwania pomiędzy kolejnymi skokami. Otrzymamy prostą próbę losową z rozkładu wykładniczego z parametrem $\lambda$.
+Pomysł: Jeśli $N(t)$ to jednorododny proces Poissona z parametrem intensywności $\lambda$, to czasy oczekiwania na kolejny skok są z rozkładu wykładniczego z tym samym parametrem, co już pokazaliśmy wcześniej \eqref{eq: 1.13}. W~związku z tym należy znaleźć momenty tych skoków, a następnie z nich wyłuskać czasy oczekiwania pomiędzy kolejnymi skokami. Otrzymamy prostą próbę losową z rozkładu wykładniczego z parametrem $\lambda$.
 Następnie, za pomocą metody momentów oraz największej wiarogodności wyestymujemy porządany parametr.
 
 \subsubsection*{Wektor momentów skoków}
@@ -500,15 +502,15 @@ Zapiszmy algorytm, który zapisze czasy $\tau^*$, w których nastąpił jakikolw
 
 \begin{enumerate}
 \item Ustal $\tau=0$, $h=0.01$, $I = 1$, trajektorię ryzyka $R$ oraz pusty wektor $V.$
-\item. Zwiększ czas $\tau$ o krok $h$, zwiększ $I$ o jeden.
-\item. Sprawdź, czy firma odnotowała spadek ($R[I] < R[I-1]$). Jeśli tak, wstaw $\tau$ do wektora $V$. W przeciwnym przypadku kontynuuj.
-\item. Powtarzaj 2-3, dopóki $I < \#R$.
+\item Zwiększ czas $\tau$ o krok $h$, zwiększ $I$ o jeden.
+\item Sprawdź, czy firma odnotowała spadek ($R[I] < R[I-1]$). Jeśli tak, wstaw $\tau$ do wektora $V$. W~przeciwnym przypadku kontynuuj.
+\item Powtarzaj 2-3, dopóki $I < \#R$.
 \item Zwróć $V.$
 \end{enumerate}
 
 \subsubsection*{Wektor czasów oczekiwania}
 
-Mając do dyspozycji momenty skoków, w bardzo łatwy sposób jesteśmy w stanie znaleźć czasy ocekiwania. Weźmiemy po prostu różnice kolejnych momentów. Powtórzymy cały proces dla każdej z trajektorii, a następnie złączymy wszystkie wektory w jeden. Możemy tak zrobić, gdyż każda symulacja jest od siebie nie zależna. Zwiększymy przy tym dokladność estymatorów.
+Mając do dyspozycji momenty skoków, w bardzo łatwy sposób jesteśmy w stanie znaleźć czasy oczekiwania. Weźmiemy po prostu różnice kolejnych momentów. Powtórzymy cały proces dla każdej z trajektorii, a następnie złączymy wszystkie wektory w jeden. Możemy tak zrobić, gdyż każda symulacja jest od siebie niezależna. Zwiększymy przy tym dokladność estymatorów.
 
 Algorytm:
 
@@ -516,22 +518,45 @@ Algorytm:
 \item Znajdź wektor momentów skoków $V$.
 \item Ustal liczność $k$ wektora $V$.
 \item Stwórz wektor czasów oczekiwania $T_j$ o długości $k-1$.
-\item Ustal $T[1] = V[1]$, $I=2$
+\item Ustal $T[1] = V[1]$, $I=2$.
 \item Wstaw $T[I] = V[I] - V[I-1]$.
 \item Zwiększ $I$ o jeden.
 \item Powtórz kroki 5-6 $k-2$ razy.
-\item powtórz kroki 1-7 dla każdej z trajektorii
+\item Powtórz kroki 1-7 dla każdej z trajektorii.
 \item Wstaw $T = \bigcup T_j$.
 \end{enumerate}
 
 W naszym przypadku $j = 1, 2, ...,50$. Dla formalności przedstawmy otrzymany wektor na histogramie częstości. Upewniamy się w ten sposób, że nie popełniliśmy błędu.
-Przypomnijmy, że nasz wektor czasów oczekiwania jest dosyć dużą próbą losową z rozkładu wykladniczego z parametrem $\lambda$. Do estymacji tego parametru posłużymy się metodami największej wiarogodności oraz momentów.
+Przypomnijmy, że nasz wektor czasów oczekiwania jest dosyć dużą próbą losową z rozkładu wykladniczego z parametrem $\lambda$. Do estymacji tego parametru posłużymy się metodami największej wiarogodności oraz momentów.\\
 
-METODA NAJWIĘKSZEJ WIAROGODNOŚCI
+Metoda Największej wiarogodności polega na znalezieniu takiego parametru, który maksymalizuje funkcję wiarogodności.
+\begin{gather}
+	f(x)=\theta e^{-\theta x},\\
+	\mathcal{L}(x_1,\dots,x_n,\theta)= \prod\limits_{ i =1}^{n }\theta e^{-\theta x_i},\\
+	\ln(\mathcal{L}(x_1,\dots,x_n,\theta))= \sum\limits_{ i =1}^{n}\ln(\theta e^{-\theta x_i})\\
+	=\sum\limits_{ i =1}^{n}(\ln(\theta)-\theta x_i) = n\ln(\theta)-\theta\sum\limits_{ i =1}^{n}x_i,\\
+\end{gather}
+Szukamy teraz maksimum tej funkcji:
+\begin{gather}
+	\frac{\diff{(\ln(\mathcal{L}(x_1,\dots,x_n,\theta)))}}{\diff\theta} = \frac{n}{\theta}-\sum\limits_{ i =1}^{n}x_i=0,\\
+	\Leftrightarrow \theta=\frac{n}{\sum\limits_{i=1}^{\infty}X_i}.
+\end{gather}
 
-METODA MOMENTÓW
+Metoda momentów polega na analitycznym obliczeniu momentów zwykłych, a potem używaniu ich odpowiedników dla populacji. Wyznaczamy tyle momentów, ile nieznanych jest parametrów. W naszym przypadku jest to jeden parametr.
+\begin{gather}
+	X\sim Exp(\theta)\\
+	EX=\int\limits_{0}^{\infty}x\theta e^{-\theta x}= \frac{1}{\theta}\int\limits_{0}^{\infty}ye^{-y}dy\\
+	=\frac{1}{\theta}[-e^{-y}-ye^{-1}]_0^{\infty}=\frac{1}{\theta} =\frac{1}{n}\sum\limits_{i=1}^{\infty}X_i\\
+	\Rightarrow \theta=\frac{n}{\sum\limits_{i=1}^{\infty}X_i}
+\end{gather}
 
-Okazuje się, że te dwa estymatory są sobie równe. Z teorii statystyki wiemy również, że są asymptotycznie nieobciążone. Po podstawieniu do wzoru otrzymujemy, że nasze $$\lambda = 1.4681753373312858.$$ Celowo nie zaokrąglamy wartości, by jak najdokładniej odzwierciedlić analizowany proces.
+Okazuje się, że te dwa estymatory są sobie równe. Z teorii statystyki wiemy również, że są asymptotycznie nieobciążone. Zapiszmy ostatecznie:
+
+\begin{equation}
+\overline \lambda = \frac{n}{\sum\limits_{i=1}^{\infty}X_i} \label{eq:estymator}.
+\end{equation}
+
+ Po podstawieniu do wzoru \eqref{eq:estymator} otrzymujemy, że nasze $$\lambda = 1.4681753373312858.$$ Celowo nie zaokrąglamy wartości, by jak najdokładniej odzwierciedlić analizowany proces.
 
 \begin{figure}[H]
 	\center
@@ -551,14 +576,14 @@ Algorytm:
 \item Zwiększ $I$ o jeden.
 \item Wyznacz $\Delta R = R[I-1] - R[I]$.
 \item Jeśli $\Delta R >= 0$, wstaw wynik do wektora $V$.
-\item. Powtarzaj 2-3, dopóki $I < \#R$.
-\item. Zwróć $X.$
+\item Powtarzaj 2-3, dopóki $I < \#R$.
+\item Zwróć $X.$
 \item Powtórz kroki 1-6 dla każdej z trajektorii.
 \item Wstaw $X = \bigcup X_j$.
 \end{enumerate}
 
-Ponownie otrzymujemy próbę losową. Tym razem nie znamy jednak jej rozkładu. Rozkład częstości pokazany na histogramie bardzo przypomina rozkład wykładniczy. W związku z tym użyjemy testów statystycznych omówionych w poprzednim dziale, by sprawdzić, czy nasza próba może pochodzić z rozkładu właśnie wykładniczego.  Wyznaczymy p-wartość testów. Jeśli przekroczą one wartości 0.05 w obu przypadkach, przyjmiemy hipotezę zerową na poziomie istotności 5\%. Wyniki gromadzimy w tabeli (ODWOŁAĆ SIĘ) i odczytujemy, że rzeczywiście dane mogą pochodzić z rozkładu wykładniczego. Po porównaniu dystrybuant teoretycznej i empirycznej nie mamy już wątpliwości. Dysponujemy próbą losową z rozkładu wykładniczego!
-Pozostaje wyestymować jej parametr $\rho$. Podstawiając do wzoru (ODWOŁAĆ SIĘ) otrzymujemy, że
+Ponownie otrzymujemy próbę losową. Tym razem nie znamy jednak jej rozkładu. Rozkład częstości pokazany na histogramie bardzo przypomina rozkład wykładniczy. W związku z tym użyjemy testów statystycznych omówionych w poprzednim dziale, by sprawdzić, czy nasza próba może pochodzić z rozkładu właśnie wykładniczego.  Wyznaczymy p-wartość testów. Jeśli przekroczą one wartości 0.05 w obu przypadkach, przyjmiemy hipotezę zerową na poziomie istotności 5\%. Wyniki gromadzimy w tabeli (\ref{table: testy}) i odczytujemy, że rzeczywiście dane mogą pochodzić z rozkładu wykładniczego. Po porównaniu dystrybuant teoretycznej i empirycznej nie mamy już wątpliwości. Dysponujemy próbą losową z rozkładu wykładniczego!
+Pozostaje wyestymować jej parametr $\rho$. Podstawiając do wzoru \eqref{eq:estymator} otrzymujemy, że
 
 \begin{equation}
  	\rho = 0.09901122812369685.
@@ -571,23 +596,46 @@ Pozostaje wyestymować jej parametr $\rho$. Podstawiając do wzoru (ODWOŁAĆ SI
 	\label{fig: 5}
 \end{figure}
 
+\begin{table}[H]
+\begin{center}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		Statystyka & Wartość & P-wartość & Wartość krytyczna \\ \hline
+		$D_n$      & 0.915   & 0.1614    & 1.094             \\ \hline
+		$A^2$      & 1.024   & 0.109     & 1.321             \\ \hline
+		
+	\end{tabular}
+\caption{Wyniki testów zgodności}
+\label{table: testy}
+\end{center}
+\end{table}
+
 \subsection{Obliczenie wartości parametru narzutu}
 
-Premię wyznaczymy na dwa sposoby. Najpierw bardziej uniwersalnym, działającym nie tylko w przypadku klasycznego procesu ryzyka, a potem korzystając właśnie z tego faktu. \\
-Najpierw spójrzmy na wzór (ODWOŁAĆ SIĘ - $R(t)$). Po krótkim zastanowieniu dochodzimy do wniosku, że średnio nasz proces powinien wzrastać o $\theta \frac{1}{\rho} \lambda$ (POKAZAĆ).
-Wyznaczymy więc empiryczną średnią wartość procesu z naszego zestawu trajektorii, a następnie wyznaczymy metodą regresji liniowej, korzystając z \emph{np. polyfit}, prostą, której współczynnik kierunkowy powinien być równy naszej teoretycznej średniej procesu.
-Znając $\rho$ oraz$ \lambda$, podstawimy do wzoru i otrzymamy nasz pożądany parametr.
+Premię wyznaczymy sposobem bardziej uniwersalnym, tzn. działającym nie tylko w przypadku klasycznego procesu ryzyka. \\
+Najpierw spójrzmy na wzór \eqref{eq: class}. Po krótkim zastanowieniu dochodzimy do wniosku, że średnio nasz proces powinien wzrastać o $\theta \lambda\frac{1}{\rho} $. Dlaczego?\\
+Otóż spójrzmy jeszcze na \eqref{eq:c} i na jego wyprowadzenie. Skoro człon $\mu \lambda$ odpowiada za minimalizowanie strat, to pozostała część musi odpowiadać za wzrost kapitału!\\
+Wyznaczymy więc empiryczną średnią wartość procesu z naszego zestawu trajektorii, a następnie wyznaczymy metodą regresji liniowej, korzystając z \emph{numpy.polyfit }\cite{polyfit}, prostą, której współczynnik kierunkowy powinien być równy naszej teoretycznej średniej procesu.
+Znając $\rho$ oraz $\lambda$, podstawimy do wzoru i otrzymamy nasz pożądany parametr.\\\\
 
-ALGORYTM
+Algorytm:
 
-Ostatecznie otrzymujemy, że $$\theta = 0.2526239274374162$$.
+\begin{enumerate}
+\item Wyznacz empiryczną średnią procesu z zestawu danych $M$.
+\item Dopasuj prostą $l$ do średniej $M$.
+\item Zapisz jej współczynnik kierunkowy $a$.
+\item Wstaw $\theta = \frac{a \rho}{\lambda}$.
+\end{enumerate}
+
+
+Ostatecznie otrzymujemy, że $$\theta = 0.2526239274374162. $$
 
 
 \subsection{Sprawdzenie poprawności wyników}
 
-Mając do dyspozycji jawną postać naszego procesu ryzyka możemy generować nowe trajektorie. Na rysunku \ref{fig: 7} zamieszczamy nowych trajektorii. Nałożymy na nim jedną losowo wybraną trajektorię z zestawu danych. Zaznaczymy również średnią empiryczną z zestawu danych.
-Na rysunku \ref{fig:8} porównujemy średnią empiryczną z 50-ciu nowych trajektorii z teoretyczną, na tle empirycznej z zestawu danych. Na \ref{fig:9} robimy to samo, tylko zwiększamy liczbę nowych trajektorii do $N=1000$. Widzimy, że dla większej liczby trajektorii, średnia empiryczna niemal nie odrywa się od teoretycznej.
-Natomiast dla małej próby, tak jak w zestawie danych, mogą nastąpić mniej lub bardziej poważne odchylenia. Możemy otrzymać nawet bardziej ekstremalne przypadki. Wystarczy dostatecznie długo generować małą wiązkę trajektorii. W końcu natrafimy na osobliwy przypadek.
+Mając do dyspozycji jawną postać naszego procesu ryzyka możemy generować nowe trajektorie. Na rysunku~\ref{fig: 7} zamieszczamy 100 nowych przebiegów ustalonego procesu Ryzyka. Nałożymy na nim jedną losowo wybraną trajektorię z zestawu danych. Zaznaczymy również średnią empiryczną z zestawu danych.
+Na rysunku~\ref{fig: 8} porównujemy średnią empiryczną z 50-ciu nowych trajektorii z teoretyczną, na tle empirycznej z zestawu danych. Widzimy, że dla małej próby, tak jak w zestawie danych, mogą nastąpić mniej lub bardziej poważne odchylenia. Możemy otrzymać nawet bardziej ekstremalne przypadki. Wystarczy dostatecznie wiele razy generować małą wiązkę trajektorii. W~końcu natrafimy na osobliwy przypadek.
 
 \begin{figure}[H]
 	\center
@@ -607,7 +655,7 @@ Natomiast dla małej próby, tak jak w zestawie danych, mogą nastąpić mniej l
 
 \subsubsection{W czasie skończonym}
 
-\textbf{prawdopodobieństwo ruiny w skończonym czasie} definiujemy jako
+\textbf{Prawdopodobieństwo ruiny w skończonym czasie} definiujemy jako
 \begin{equation}
 \psi(u,T)=P(\tau(u)<T),
 \end{equation}
@@ -634,6 +682,19 @@ $$\psi_{\lambda,\rho}(u,T)=\psi_{\frac{\lambda}{\rho},1}(\rho u,\rho T).$$
 Dla $c\ne 1$ korzystamy z faktu, że
 $$\psi_{\lambda,c}(u,T)=\psi_{\frac{\lambda}{c},1}(u,cT).$$
 
+W naszym przypadku zarówno $\rho$ jak i $c$ są różne od jedynki. W związku z tym musimy połączyć te dwa przypadki \eqref{eq: najs}.
+
+\begin{equation}
+\psi(u, T) = \psi_{\frac{\lambda}{\rho c}, 1}(\rho u, \rho cT). \label{eq: najs}
+\end{equation}
+
+Po podstawieniu do \eqref{eq: class} otrzymujemy, że:
+
+\begin{equation}
+\psi(u, T) = \psi_{\frac{1}{1+\theta}, 1}(\rho u, (1+\theta)\lambda T). \label{eq: najss}
+\end{equation}
+
+Podstawiamy nasze parametry do \eqref{eq: najss} i wyniki wstawiamy do tabeli \ref{table:XD}.\\
 Trzeba jednak przyznać, że korzystanie z \eqref{eq:ruina_teoretyczna} może być mało praktycznie, a zwykle - po prostu niemożlwe. Zamiast tego możemy wygenerować $N$ trajektorii i zliczać te, które spadły poniżej zera. Wydaje się to o wiele prostsze.\\
 
 Algorytm\\
@@ -643,7 +704,7 @@ Algorytm\\
 	\item Wstaw $\psi(u,T)=\frac{n}{N}$.
 \end{enumerate}
 
-Nasze wyniki umieszczamy w tabeli (ODWOŁAĆ SIĘ)
+Nasze wyniki umieszczamy w tabeli \ref{table:MC}
 
 \subsubsection{W czasie nieskończonym}
 
@@ -656,7 +717,7 @@ Nasze wyniki umieszczamy w tabeli (ODWOŁAĆ SIĘ)
 gdzie $u > 0$ - kapitał początkowy. \\
 \\
 Wyznaczenie tego prawdopodobieństwa może wydawać się trudne. Mamy bowiem do czynienia z czasem nieskończonym, a to.. dosyć długo. Na szczęście matematykom udało się rozwiązać ten problem.
-Sukces ten przypisuje się dwóm wybitnym matematykom - F. Pollaczkowi oraz A.Chinczynowi. Ich wynik zapisujemy w \eqref{eq: polchin}.
+Sukces ten przypisuje się dwóm wybitnym jednostkom - F. Pollaczkowi oraz A.Chinczynowi. Ich wynik zapisujemy w \eqref{eq: polchin}.
 \\\\
 \begin{equation}
 \psi(u)=\frac{\theta}{1+\theta}\sum_{n=0}^{\infty}\left(\frac{1}{1+\theta}\right)^n\cdot B_n(u), \label{eq: polchin}
@@ -690,46 +751,87 @@ Więc ostatecznie zapisujemy \eqref{eq: teoretyczny_nieskończony}:
 \psi(u) = \frac{1}{1+\theta} e^{-\rho u \frac{\theta}{1+\theta}}. \label{eq: teoretyczny_nieskończony}
 \end{equation}
 
-Metoda Monte Carlo dla $\psi(u)$\\ \\
-Fakt
-$$\psi(u)=P(Y_1+\dots+Y_K>u),\quad \mathrm{gdzie} K\sim Geom(\frac{\theta}{1+\theta}), \quad K\indep Y_i.$$
-Dowód
+Wstawiając $u =50$, $T = 100$, $200$, otrzymujemy teoretyczne prawdopodobieństwo ruiny w czasie nieskończonym. Wyniki zapisujemy do tabeli \ref{table:XD}.
+
+Możemy oszacować prawdopodobieństwo $\psi(u)$ metodą Monte Carlo. \\
+Najpierw pokażemy, że \eqref{eq:dowod}
+
+\begin{equation}
+\psi(u)=P(Y_1+\dots+Y_K>u),\quad \mathrm{gdzie} K\sim Geom(\frac{\theta}{1+\theta}), \quad K\indep Y_i. \label{eq:dowod}
+\end{equation}
+
+Dowód:
 \begin{gather}
 	P(Y_1+\dots+Y_K>u)=\sum\limits_{n=0}^{\infty}P(Y_1+\dots+Y_n>u)P(K=n)\\= \sum\limits_{n=0}^{\infty}P(Y_1+\dots+Y_n>u)(\frac{\theta}{1+\theta})(\frac{1}{1+\theta})^{n}=\psi(u)
 \end{gather}
+
+Teraz mamy już wszystkie informacje potrzebne do zbudowania algorytmu. Będziemy generować zmienne losowe z rozkładu podanym w \eqref{eq: polchin}, a następnie sprawdzać, czy ich suma jest większa od kapitału początkowego. Wyniki zapiszemy do tabeli \ref{table:MC}.\\
+
 Algorytm\\
-For $i=1:N$
 \begin{enumerate}
+	\item Ustal $N$ symulacji.
 	\item Generuj $K\sim Geom(\frac{\theta}{1+\theta})$.
 	\item Generuj $Y_1,\dots,Y_K$- i.i.d o gęstości  $f(x)=\frac{1-F_{X_i}(x)}{\mu}$.
 	\item Jeśli $Y_1+\dots+Y_K>u$, wstaw $Z(i)=1$, w przeciwnym wypadku $Z(i)=0$
+	\item Powtórz kroki 2-4 $N$-krotnie.
+	\item Wstaw $\psi(u)=\frac{Z(1)+\dots+Z(N)}{N}.$
 \end{enumerate}
-end\\
-Wstaw $\psi(u)=\frac{Z(1)+\dots+Z(N)}{N}$
 
-\section{Wybrane zależności trajektorii procesu Wienera}
+\begin{table}[H]
+\begin{multicols}{2}
+	\begin{center}
+	\begin{tabular}{|l|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		Czas     & Prawdopodobieństwo \\ \hline
+		1        & 0.29                  \\ \hline
+		2        & 0.2926                  \\ \hline
+		$\infty$ & 0.2943                  \\ \hline
+	\end{tabular}
+\caption{Wyniki otrzymane metodą Monte Carlo}
+\label{table:MC}
+	\begin{tabular}{|l|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		Czas     & Prawdopodobieństwo \\ \hline
+		1        & 0.2919                  \\ \hline
+		2        & 0.294             \\ \hline
+		$\infty$ & 0.2941                  \\ \hline
+	\end{tabular}
+\caption{Wyniki teoretyczne}
+\label{table:XD}
+	\end{center}
+
+\end{multicols}
+\end{table}
+
+\subsection*{Wnioski}
+
+A więc osiągnęliśmy nasz cel. Z pozornie zbyt małej ilości trajektorii, które jak się okazało były znacznie odstające od średniej, uzyskaliśmy pełny model opisujący potencjalną przyszłość pewnej firmy ubezpieczeniowej. Trzeba przyznać, że prawdopodobieństwo bankructwa jest dosyć spore. Zwróćmy uwagę na fakt, że jeżeli zakład nie upadnie w najbliższym czasie, to już prawdopodobnie tego nie zrobi (tab. \ref{table:XD}). Wynika to z prostej przyczyny - Firma startuje z dosyć niskim budżetem. Jeżeli prezesi będą mieli pecha, to klienci będą domagać się zbyt wielu odszkodowań za pewne uszczerbki. Wtedy niestety zakład czeka ruina. Jeśli uda się jednak przetrwać początkowy okres, to po pewnym czasie firma rozwinie się za bardzo, żeby zbankrutować.
+
+\section{Wybrane zależności dla trajektorii procesu Wienera}
 
 \subsection{Średni czas wyjścia z danego pzedziału}
 
 Będziemy badać średni czas wyjścia z  przedziału $[a,b]$, dla $x\in[a,b]$. Oznaczmy go jako $$\mathbb{E}\tau_x \mathrm{,~gdzie~}\tau_x:=\inf\{t\geq0:B_t^x\notin(a,b)\}.$$ 
 Ponieważ na komputerze nie jest możliwe wykonanie symulacji procesu Wienera w czasie ciągłym, ustalamy najmniejszy krok czasowy $dt$, potrzebny do zastosowania metody numerycznej. Aby móc jak najlepiej oszacować średni czas wyjścia, powtarzamy $n$ razy symulację dla danego~$x$.\\ \\
-Algorytm(1):
+Algorytm:
 \begin{enumerate}
 	\item Ustal punkt startowy $x$, najmniejszy krok czasowy $dt$, liczbę powtórzeń symulacji $n$ oraz granice przedziału $a$ i $b$.
 	\item Jeżeli $x=a$ lub $x=b$ zwróć 0.
-	\item Ustal $T=0$ 
+	\item Ustal $T=0$ .
 	\item Generuj trajektorię procesu Wienera $B_t^x$ dopóki $B_t^x\leq a$ lub $B_t^x\geq b$.
 	\item Zwiększ $T$ o ilość kroków czsowych $dt$, które mineły do tego momentu.
 	\item Powtórz kroki 4-5 $n$ razy.
 	\item Zwróć $\frac{T}{n}$.
 \end{enumerate}
 Chcąc zbadać zależność średniego czasu wyjścia od odległości punktu startowego $x$ do granic przedziału $[a,b]$ musimy ustalić $dx$, czyli różnicę między kolejnymi początkowymi $x \in [a,b]$.\\ \\ 
-Algorytm(2):
+Algorytm:
 \begin{enumerate}
 	\item Ustal różnicę $dx$, najmniejszy krok czasowy $dt$, liczbę powtórzeń symulacji $n$, oraz granice przedziału $a$ i $b$.
 	\item Stwórz pusty wektor $y$.
 	\item Stwórz wektor $v$, początkowych $x$-ów należących do przedziału $[a,b]$, tak aby $v[i+1]-v[i]=dx$.
-	\item Dla każdego elementu z wektora $v$ oblicz średni czas wyjścia (Algorytm(1)) i wstaw otrzymany wynik do wektora~$y$.
+	\item Dla każdego elementu z wektora $v$ oblicz średni czas wyjścia i wstaw otrzymany wynik do wektora~$y$.
 	\item Zwróć $y$
 \end{enumerate}
 Mając powyższe informacje, możemy przeprowadzić symulację. Rozważmy przypadki dla $n=10^3$ i $n=10^5$, $dt=0.1$, $dx=1$, $a=50$, $b=150$. Otrzymujemy wyniki widoczne na rys. \ref{fig:a1} i rys. \ref{fig:a2}
@@ -781,7 +883,7 @@ $$P(B_{\tau^x}^x=b).$$
 Jako, że symulacja działa w czasie dyskretnym, do określenia prawdopodobieństwa użyjemy wzoru:
 $$P(B_{\tau^x}^x\geq b).$$
 Postępujemy podobnie jak w przypadku szukania średniego czasu wyjścia.\\ \\
-Algorytm(3):
+Algorytm:
 \begin{enumerate}
 	\item Ustal punkt startowy $x$, najmniejszy krok czasowy $dt$, liczbę powtórzeń symulacji $n$  oraz granice przedziału $a$ i $b$.
 	\item Jeżeli $x=a$ zwróć 0.
@@ -793,15 +895,15 @@ Algorytm(3):
 	\item Zwróć $\frac{k}{n}$.
 \end{enumerate}
 Analogicznie tworzymy algorytm, mający na celu zbadanie zależności między prawdopodobieństwem wyjścia przez $b$ a początkowym $x\in [a,b]$.\\ \\ 
-Algorytm(4):
+Algorytm:
 \begin{enumerate}
 	\item Ustal różnicę $dx$, najmniejszy krok czasowy $dt$, liczbę powtórzeń symulacji $n$, oraz granice przedziału $a$ i $b$.
 	\item Stwórz pusty wektor $y$.
 	\item Stwórz wektor $v$, początkowych $x$-ów należących do przedziału $[a,b]$, tak aby $v[i+1]-v[i]=dx$.
-	\item Dla każdego elementu z wektora $v$ oblicz prawdopodobieństwo wyjścia przez $b$ (Algorytm(3)) i wstaw otrzymany wynik do wektora~$y$.
+	\item Dla każdego elementu z wektora $v$ oblicz prawdopodobieństwo wyjścia przez $b$ i wstaw otrzymany wynik do wektora~$y$.
 	\item Zwróć $y$
 \end{enumerate}
-Korzystając z algorytmu 3 i 4, przeprowadzimy symulację dla $n=10^3$ i $n=10^5$, $dt=0.1$, $dx=1$, $a=50$, $b=150$. Otrzymujemy wyniki widoczne na rys. \ref{fig:55} i rys. \ref{fig:66}
+Przeprowadzimy symulację dla $n=10^3$ i $n=10^5$, $dt=0.1$, $dx=1$, $a=50$, $b=150$. Otrzymujemy wyniki widoczne na rys. \ref{fig:55} i rys. \ref{fig:66}
 \begin{figure}[H]
 	\begin{multicols}{2}
 		\begin{center}
@@ -841,7 +943,7 @@ Co zgadza się z naszymi teoretycznymi obliczeniami (im większe $n$ tym większ
 	\end{multicols}
 \end{figure}
 
-\subsection*{Podsumowanie}
+\subsection*{Wnioski}
 W zadaniu szukaliśmy zależności między średnim czasem wyjścia z przedziału $[a,b]$ oraz prawdopodobieństwem, że wyjście to nastąpi przez $b$, a wartością początkową $x$. Musimy jednak pamiętać, że przeprowadzając symulację metodą numeryczną, dostaniemy jedynie przybliżone zachowanie procesu Wienera. Aby uzyskać rzeczywisty efekt, nasz minimalny krok czasowy $dt$ musiałby dążyć do zera. Żeby wyniki były jak najbardziej rzetelne, musi zostać spełniony następujący warunek:
  $$dt<<|a-b|.$$ 
 Należy jednak pamiętać, że dla ustalonego $dt$, zwiększając różnicę $|a-b|$, zwiększa się również czas wykonywania symulacji, dlatego mając ograniczone warunki, nie powinna być ona zbyt duża. Wykonując więcej powtórzeń $n$, również poprawiamy dokładność otrzymanych wyników, jednak tutaj równie dobrze jest zachować umiar.
@@ -850,6 +952,11 @@ Obserwując średni czas wyjścia, w zależności od początkowego $x$, widzimy 
  $$P(B_{\tau^x}^x=b) = P(B_{\tau^x}^x=a) = \frac{1}{2}$$
 Ogólnie:
  $$P(B_{\tau^x}^x=b) = 1 - P(B_{\tau^x}^x=a).$$
+
+\section{Podsumowanie}
+
+Przedstawione zadania pozwoliły dogłębnie przyjrzeć się zagadnieniom z zakresu rachunku prawdopodobieństwa, statystyki matematycznej oraz symulacji komputerowych. Poznaliśmy nowe metody, nowe testy, przypomnieliśmy sobie metody generowania zmiennych losowych. Ten projekt zdecydowanie spowodował utrwalenie bieżącej wiedzy. Pomimo wielu trudności, które napotkały nas w trakcie przygotowania tego raportu, jesteśmy ostatecznie zadowoleni z efektów. Jest to największy projekt na dotychczasowych studiach i cieszymy się, że mogliśmy go przedstawić. Dziękujemy za godziny poświęcone na konsultacjach oraz wyrozumiałość i pomoc w czasie ćwiczeń!
+
 \begin{thebibliography}{9}
 
 \bibitem{R. M. Dudley} R.M.Dudley - The Dvoretzky-Kiefer-Wolfowitz inequality with sharp constant - massarts 1990 proof.
