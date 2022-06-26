@@ -1,0 +1,47 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[export]{adjustbox}
+\usepackage{mathtools,amsthm,amssymb,icomma,upgreek,xfrac,enumerate, enumitem, bbm,titlesec,lmodern,polski,derivative,geometry,multicol,titling,graphicx,url,amsmath,caption,lipsum,float,longtable,booktabs}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage[hidelinks,breaklinks,pdfusetitle,pdfdisplaydoctitle]{hyperref}
+\setlength{\droptitle}{-1cm}
+\mathtoolsset{showonlyrefs,mathic}
+\title{Proces ryzyka i Ruch Browna}
+\author{Adam Wrzesiński, Joanna Kołaczek}
+\date{26.06.2022}
+\newtheoremstyle{break}
+{\topsep}{\topsep}%
+{\normalfont}{}%
+{\bfseries}{}%
+{\newline}{}%
+\theoremstyle{break}
+\newtheorem{zadanie}{Zadanie} 
+\newtheorem*{rozwiazanie}{Rozwiązanie}
+
+\titleformat*{\section}{\LARGE\bfseries}
+\titleformat*{\subsection}{\Large\bfseries}
+\titleformat*{\subsubsection}{\large\bfseries}
+\titleformat*{\paragraph}{\large\bfseries}
+\titleformat*{\subparagraph}{\large\bfseries}
+
+%% KOMENDY:
+\newcommand*{\e}{\mathrm{e}}
+\newcommand{\hyline}[2]{%
+	$#1$\> --\kern.5em #2 \\}
+
+
+%% OPERATORY:
+% `\diff` od „differential”, czyli odpowiednika słowa „różniczka” w języku
+% angielskim.
+\DeclareMathOperator{\diff}{d\!}
+\newcommand{\indep}{\perp \!\!\! \perp}
+\DeclareMathOperator{\EX}{\mathbb{E}}
+\newcommand*{\E}{\mathrm{e}}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\end{document}
